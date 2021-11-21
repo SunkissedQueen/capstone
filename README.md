@@ -73,7 +73,48 @@ $ git push origin main
 Begin the rails server: $ rails server
 In a browser navigate to: http://localhost:3000
 
-In a separate terminal: $bin/webpack-dev-server
+In a separate terminal: $ bin/webpack-dev-server
+
+Should just see the default rails page
+
+Tip: Now that a main branch has been setup in the repositiory to store your code...Ensure you have the current data from your main branch that should be working...
+$ git checkout main
+$ git pull origin main 
+$ git checkout -b new_branch
+
+TIp: Before adding/commiting changes, always ensure you are in the proper space to store your data
+$ pwd
+$ git branch
+
+Tip: Ensure you have saved the changes in your text editor
+$ git status
+
+Tip: Open up additional tabs for the servers
+Command + T or click the + sign on the terminal 
+
+React Components
+Once we have a Rails application we can add a React component using a generate command.
+
+$ rails generate react:component App
+
+The install commands created a directory in app called javascript, which will hold another directory called components that will contain our App.js React component.
+
+Rails Controller and View
+Next, we need to generate a controller so that we can route to the React component that will be rendered in the browser through the Rails view.
+$ rails g controller Home
+Add a file in app/views/home called index.html.erb
+Add the following code to that file  <%= react_component 'App' %>
+
+Rails Routes
+Create a route so the React component will be rendered in a Rails view.
+
+config/routes.rb
+
+Rails.application.routes.draw do
+  root 'home#index'
+end
+
+Refresh the browser. At this point you should see the info in between the header tag on the App.js.
 
 ## Usage
 How does one go about using it?
