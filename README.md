@@ -116,6 +116,14 @@ end
 
 Refresh the browser. At this point you should see the info in between the header tag on the App.js.
 
+Push changes to git hub repository
+Pull request, merge, delete branch
+-Open pull request
+-Merge pull request
+-Delete branch
+Open a new branch on terminal
+
+
 ## Usage
 How does one go about using it?
 Provide various use cases and code examples here.
