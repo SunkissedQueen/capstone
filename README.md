@@ -122,7 +122,14 @@ Pull request, merge, delete branch
 -Merge pull request
 -Delete branch
 Open a new branch on terminal
+$ git branch -d component
 
+Tips--
+error: Your local changes to the following files would be overwritten by checkout:
+	README.md
+Please commit your changes or stash them before you switch branches.
+Aborting
+Corrections-----> checkout a new branch, add changes, and commit...checkout and pull main...checkout the new branch
 
 ## Usage
 How does one go about using it?
