@@ -116,6 +116,220 @@ end
 
 Refresh the browser. At this point you should see the info in between the header tag on the App.js.
 
+Push changes to git hub repository
+Pull request, merge, delete branch
+-Open pull request
+-Merge pull request
+-Delete branch
+Open a new branch on terminal
+$ git branch -d component
+
+Tips--
+error: Your local changes to the following files would be overwritten by checkout:
+	README.md
+Please commit your changes or stash them before you switch branches.
+Aborting
+Corrections-----> checkout a new branch, add changes, and commit...checkout and pull main...checkout the new branch
+
+import React, { Component } from 'react'
+allows to replace React.Component
+
+Reactstrap
+Modify the Rails stylesheet to be a stylesheet with an .scss extension, which allows regular css code as well as import necessary dependencies. scss stands for Syntactially Awesome Styles Sheet.
+$ bundle add bootstrap
+$ mv app/assets/stylesheets/application.css app/assets/stylesheets/application.scss
+$ yarn add reactstrap
+Add an import to the scss file. Make sure to stop your server and restart after the performing these commands.
+app/assets/stylesheets/application.scss
+@import 'bootstrap';
+
+Additional React Components
+The React file structure lives in the app/javascript/components directory. The Rails component directory takes the place of the src directory in a typical React application.
+
+Create three directories in your React application: assets, components, and pages.
+
+Assets
+The assets directory is used to store image files used in your application.
+
+Components
+The components directory is for helper components such as headers, footers, and buttons.
+
+Pages
+The pages directory is for full views. The full view can consist of items from the assets and components directory as well a code unique to a page.
+
+Add Pages
+Add an <h3> to each describing their intent
+
+app/javascript/components/pages/Home.js
+
+import React, { Component } from 'react'
+
+class Home extends React.Component {
+  render() {
+    return(
+      <h3>This is the Home Page</h3>
+    )
+  }
+}
+
+export default Home
+
+React Router
+In order to have multiple pages we need to add the React Router.
+
+$ yarn add react-router-dom
+Import the React-router and appropriate pages.
+
+app/javascript/components/App.js
+
+import {
+  BrowserRouter as  Router,
+  Route,
+  Switch
+} from "react-router-dom"
+
+import AboutUs from "./pages/AboutUs"
+import LearnMore from "./pages/LearnMore"
+import Home from "./pages/Home"
+Add the basic routes to allow for navigation.
+
+app/javascript/components/App.js
+
+<Router>
+  <Switch>
+    <Route exact path="/" component={ Home } />
+    <Route path="/about" component={ AboutUs } />
+    <Route path="/learn" component={ LearnMore } />
+  </Switch>
+</Router>
+
+Routing Constraints
+Separate the Rails routing responsibilities, and the React routing responsibilities
+The Rails Router has a convenient feature that we can use to achieve separation of traffic, all HTML requests go to our React app, and everything else (JSON and JavaScript traffic)be handled normally.
+
+config/routes.rb
+
+Rails.application.routes.draw do
+  get '*path', to: 'home#index', constraints: ->(request){ request.format.html? }
+  root 'home#index'
+end
+This states that all HTML traffic goes to home#index our React app.
+
+Add Navigation Components
+Using Reactstrap to add the navigation code.
+
+app/javascript/components/App.js
+
+import React from "react"
+import PropTypes from "prop-types"
+import {
+  BrowserRouter as  Router,
+  NavLink,
+  Route,
+  Switch
+} from "react-router-dom"
+import { Nav, NavItem } from "reactstrap"
+import AboutUs from "./pages/AboutUs"
+import LearnMore from "./pages/LearnMore"
+import Home from "./pages/Home"
+
+class App extends React.Component{
+  render(){
+    return(
+      <Router>
+        <h1>This is a React Component</h1>
+        <Nav>
+          <NavItem>
+            <NavLink to="/">Home</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/about">About Us</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/learn">Learn More</NavLink>
+          </NavItem>
+        </Nav>
+        <Switch>
+          <Route exact path="/" component={ Home } />
+          <Route path="/about" component={ AboutUs } />
+          <Route path="/learn" component={ LearnMore } />
+        </Switch>
+      </Router>
+    )
+  }
+}
+
+export default App
+
+Update reactor-route-dom to version 5.3.0
+$ bundle
+$ yarn
+Restart server
+
+Should see a page with links to the pages created in the react component
+
+Add a header and footer component with same process as the pages except these files go under the components folder with the javascript/components
+
+$ yarn add -D enzyme react-test-renderer enzyme-adapter-react-16
+$ yarn add jest
+Control + C to stop the testing suite
+
+Create a new file in component or page folder with a .test.js extension
+
+Update package.json
+Add the following code before the last curly brace
+,
+  "jest": {
+    "roots": [
+      "app/javascript/components"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>app/javascript/components/mockFile.js",
+      "\\.(css|less)$": "<rootDir>app/javascript/components/mockFile.js"
+    }
+  }
+
+
+Create file with `test.js` extensions
+
+Add the following code structure to the files
+import React from 'react'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import Footer from './Footer'
+
+Enzyme.configure({ adapter: new Adapter() })
+
+describe('When Footer loads...',() => {
+it("displays a header", () => {
+const footer = shallow(<Footer />)
+expect(footer.find('h3').text()).toEqual('This is the Footer Page')
+})
+})
+
+run in the terminal
+$ yarn jest
+
+
+Set Up RSpec and Devise
+$ bundle add rspec-rails
+$ rails generate rspec:install
+$ bundle add devise
+$ rails generate devise:install
+$ rails generate devise User
+$ rails db:migrate
+
+Adding mailer settings
+Set up the default URL options for the Devise mailer in each environment. In the config/environments/development.rb file, add the following code at the end of the previous code inside the file:
+
+config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+Devise is a Rails gem that gives developers a collection of methods that create authorization and authentication.
+
+Navigate to http://localhost:3000/users/sign_in and see a log in page.
+
+Navigate to http://localhost:3000/users/sign_up and see a sign up page.
+
 ## Usage
 How does one go about using it?
 Provide various use cases and code examples here.
@@ -124,7 +338,7 @@ Provide various use cases and code examples here.
 
 
 ## Project Status
-Project is: _in progress_ / _complete_ / _no longer being worked on_. If you are no longer working on it, provide reasons why.
+Project is: _in progress_ 
 
 
 ## Room for Improvement
