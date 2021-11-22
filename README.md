@@ -270,6 +270,47 @@ Should see a page with links to the pages created in the react component
 
 Add a header and footer component with same process as the pages except these files go under the components folder with the javascript/components
 
+$ yarn add -D enzyme react-test-renderer enzyme-adapter-react-16
+$ yarn add jest
+Control + C to stop the testing suite
+
+Create a new file in component or page folder with a .test.js extension
+
+Update package.json
+Add the following code before the last curly brace
+,
+  "jest": {
+    "roots": [
+      "app/javascript/components"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>app/javascript/components/mockFile.js",
+      "\\.(css|less)$": "<rootDir>app/javascript/components/mockFile.js"
+    }
+  }
+
+
+Create file with `test.js` extensions
+
+Add the following code structure to the files
+import React from 'react'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import Footer from './Footer'
+
+Enzyme.configure({ adapter: new Adapter() })
+
+describe('When Footer loads...',() => {
+it("displays a header", () => {
+const footer = shallow(<Footer />)
+expect(footer.find('h3').text()).toEqual('This is the Footer Page')
+})
+})
+
+run in the terminal
+$ yarn jest
+
+
 Set Up RSpec and Devise
 $ bundle add rspec-rails
 $ rails generate rspec:install
@@ -297,7 +338,7 @@ Provide various use cases and code examples here.
 
 
 ## Project Status
-Project is: _in progress_ / _complete_ / _no longer being worked on_. If you are no longer working on it, provide reasons why.
+Project is: _in progress_ 
 
 
 ## Room for Improvement
