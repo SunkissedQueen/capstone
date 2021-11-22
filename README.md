@@ -268,6 +268,8 @@ Restart server
 
 Should see a page with links to the pages created in the react component
 
+Add a header and footer component with same process as the pages except these files go under the components folder with the javascript/components
+
 Set Up RSpec and Devise
 $ bundle add rspec-rails
 $ rails generate rspec:install

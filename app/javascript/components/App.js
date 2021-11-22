@@ -6,7 +6,8 @@ import {
   Switch
 } from "react-router-dom"
 import { Nav, NavItem } from "reactstrap"
-
+import Header from './components/Header'
+import Footer from './components/Footer'
 import AboutMe from "./pages/AboutMe"
 import LearnMore from "./pages/LearnMore"
 import Home from "./pages/Home"
@@ -16,6 +17,7 @@ class App extends Component {
     return (
      
         <Router>
+          <Header/>
         <h1>My Personal Capstone</h1>
           <Nav>
             <NavItem>
@@ -33,6 +35,7 @@ class App extends Component {
           <Route path="/aboutme" component={ AboutMe } />
           <Route path="/learn" component={ LearnMore } />
         </Switch>
+        <Footer/>
         </Router>
   
     )
