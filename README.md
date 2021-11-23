@@ -330,6 +330,65 @@ Navigate to http://localhost:3000/users/sign_in and see a log in page.
 
 Navigate to http://localhost:3000/users/sign_up and see a sign up page.
 
+Add devise routes to app/views/home/index.html.erb
+<%= react_component "App", {
+  logged_in: user_signed_in?,
+  current_user: current_user,
+  new_user_route: new_user_registration_path,
+  sign_in_route: new_user_session_path,
+  sign_out_route: destroy_user_session_path
+} %>
+
+We need to clearly separate the Rails routing responsibilities, and the React routing responsibilities. We also need to route the index.html.erb page to the root.
+config/routes.rb
+
+Rails.application.routes.draw do
+resources :movies
+devise_for :users
+get '*path', to: 'home#index', constraints: ->(request){ request.format.html? }
+root 'home#index'
+end
+
+This route directs all HTML traffic to the 'home#index' route, but ignores non HTML traffic, like our API requests. That is perfect to interact with the React router.
+
+With login status and routes in our React component, we can now add a button to log the user out or in.
+
+First we need to instruct Devise to listen for logout requests via GET instead of the default DELETE. We do that in Devise's config file:
+
+config/initializers/devise.rb
+
+Find this line:
+config.sign_out_via = :delete
+
+and replace it with this:
+config.sign_out_via = :get
+
+Bringing in the three pieces of information that get passed from devise to "App" in index.html.erb.
+
+That is followed with some conditional rendering to display the appropriate link depending on if the user is logged in or logged out. Add any other links between the div container.
+render() {
+const {
+logged_in,
+current_user,
+new_user_route,
+sign_in_route,
+sign_out_route
+} = this.props
+return (
+<>
+{ logged_in &&
+<div>
+<a href={sign_out_route }>Sign Out</a>
+</div>
+}
+{ !logged_in &&
+<div>
+<a href={ sign_in_route }>Sign In</a>
+</div>
+}
+</>
+)
+}
 ## Usage
 How does one go about using it?
 Provide various use cases and code examples here.

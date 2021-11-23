@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class AboutMe extends React.Component {
+class AboutMe extends Component {
   render() {
     return(
       <h3>This is the AboutMe Page</h3>
