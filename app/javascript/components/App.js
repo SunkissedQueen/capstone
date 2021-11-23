@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import {
   BrowserRouter as  Router,
-  NavLink,
   Route,
   Switch
 } from "react-router-dom"
-import { Nav, NavItem } from "reactstrap"
 import Header from './components/Header'
 import Footer from './components/Footer'
 import AboutMe from "./pages/AboutMe"
@@ -13,23 +11,23 @@ import LearnMore from "./pages/LearnMore"
 import Home from "./pages/Home"
 
 class App extends Component {
+  constructor(props){
+    super(props)
+  }
   render () {
+    const {
+      logged_in,
+      current_user,
+      new_user_route,
+      sign_in_route,
+      sign_out_route
+    } = this.props
+
     return (
      
         <Router>
-          <Header/>
+          <Header {...this.props} />
         <h1>My Personal Capstone</h1>
-          <Nav>
-            <NavItem>
-              <NavLink to="/">Home</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink to="/aboutme">About Me</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink to="/learn">Learn More</NavLink>
-            </NavItem>
-          </Nav>
         <Switch>
           <Route exact path="/" component={ Home } />
           <Route path="/aboutme" component={ AboutMe } />
