@@ -389,6 +389,90 @@ return (
 </>
 )
 }
+
+Rails reaources
+$ rails g resource Movie title:string show_type:string network:string genre:string us_rating:string year:integer
+$ rails g resource List list_name:string user_id:integer
+$ rails g resource MovieList movie_id:integer list_id:integer
+$ rails db:migrate
+$ rails g migration change_movie_genre_datatype_to_array
+
+Add an array column to an existing table:
+def change
+    remove_column :movies, :genre
+    add_column :movies, :genre, :string, array:true, default: []
+end
+
+Associations
+app/models
+class User devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable has_many :lists
+
+class List belongs_to :user has_many :movie_lists has_many :movies, through: :movie_lists
+
+class Movie has many :movie_lists has_many :lists, through: :movie_lists
+
+class MovieList belongs_to :list belongs_to :movie
+
+Devise code
+config/routes.rb
+
+Rails.application.routes.draw do
+  resources :apartments
+  devise_for :users
+end
+
+Add username to devise form
+$ rails generate migration add_username_to_user
+db/migrate/
+devise strong params
+app/controllers/application_controller.rb
+
+Modifying Devise Forms
+$ rails generate devise:views
+app/views/devise/registrations/new.html.erb
+
+Override the default devise views
+Update the value to be true:
+config.scoped_views = true
+
+Restart server
+
+app/views/devise/registrations/new.html.erb
+Styling devise page
+<div class="field">
+  <%= f.label :username, :class => "form-element" %>
+  <%= f.text_field :username, autofocus: true, autocomplete: "username", :class => "form-element" %>
+</div>
+These classes can be referenced in the stylesheet.
+
+app/assets/stylesheets/application.scss
+
+.form-element{
+  margin: 10px;
+}
+
+Establish a dynamic route that will allow us to pass props to the Index component while still allowing Router to determine when Index should be visible to the user.
+
+src/App.js
+
+<Route path="/movieindex" render={(props) => <MovieIndex movies={this.state.movies} />} />
+
+db/seeds
+Step 1: Installing the gem
+$ gem install faker -v 2.10.2
+Step 2: Adding Faker Gemfile to Gemfile Folder
+gem 'faker', '~> 2.10', '>= 2.10.2'
+You need to go online and find the gem
+https://rubygems.org/gems/faker/versions/2.10.2
+
+$ bundle install
+Planting seeds
+5.times do
+    username = Faker::Name.unique.name
+    email = Faker::Internet.unique.email
+    password = Faker::Internet.password
+    User.create(username: username, email: email, password: password)
+end
 ## Usage
 How does one go about using it?
 Provide various use cases and code examples here.
@@ -408,7 +492,7 @@ Room for improvement:
 - Improvement to be done 2
 
 To do:
-- Feature to be added 1
+- Seeds- dynamic structure
 - Feature to be added 2
 
 

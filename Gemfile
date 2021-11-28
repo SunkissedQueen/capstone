@@ -54,3 +54,5 @@ gem "bootstrap", "~> 5.1"
 gem "rspec-rails", "~> 5.0"
 
 gem "devise", "~> 4.8"
+
+gem 'faker', '~> 2.10', '>= 2.10.2'

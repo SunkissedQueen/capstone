@@ -32,6 +32,7 @@ class App extends Component {
           <Route exact path="/" component={ Home } />
           <Route path="/aboutme" component={ AboutMe } />
           <Route path="/learn" component={ LearnMore } />
+          <Route path="/movieindex" render={(props) => <MovieIndex movies={this.state.movies} />} />
         </Switch>
         <Footer/>
         </Router>
